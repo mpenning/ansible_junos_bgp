@@ -1,0 +1,15 @@
+name: topo_01
+
+topology:
+  nodes:
+    dal.edge01:
+      kind: juniper_vjunosswitch
+      image: vrnetlab/vr-vjunosswitch:23.2R1.14
+      #startup-config: configs/dal.edge01.txt
+    rtp.edge01:
+      kind: juniper_vjunosswitch
+      image: vrnetlab/vr-vjunosswitch:23.2R1.14
+      #startup-config: configs/rtp.edge01.txt
+
+  links:
+    - endpoints: ["dal.edge01:eth1", "rtp.edge01:eth1"]

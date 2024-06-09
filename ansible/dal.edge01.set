@@ -1,0 +1,15 @@
+set system host-name dal.edge01
+
+                                  set interfaces ge-0/0/1 unit 0 family inet address 192.0.2.1/30
+            
+  set routing-options router-id 192.0.2.1
+  set routing-options autonomous-system 64000
+      
+                                            
+      set protocols bgp group SomePeerName type internal
+      set protocols bgp group SomePeerName description "Connection to SomePeerName"
+      set protocols bgp group SomePeerName local-address 192.0.2.1
+      set protocols bgp group SomePeerName neighbor 192.0.2.2
+      set protocols bgp group SomePeerName log-updown
+
+      

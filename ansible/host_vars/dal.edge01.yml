@@ -1,0 +1,17 @@
+hostname: dal.edge01
+routerid: 192.0.2.1
+interfaces:
+  ge-0/0/1 unit 0:
+    verb: set
+    family: inet
+    address: 192.0.2.1/30
+bgp:
+  asn: 64000
+  peers:
+    group:
+      verb: set
+      name: SomePeerName
+      asn: 64000
+      description: "Connection to SomePeerName"
+      local_address: 192.0.2.1
+      neighbor: 192.0.2.2

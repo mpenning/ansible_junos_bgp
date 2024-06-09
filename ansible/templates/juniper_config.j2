@@ -1,0 +1,46 @@
+{% if hostname is defined %}
+set system host-name {{ hostname }}
+{% endif %}
+
+{% if interfaces is defined %}
+  {% for intf_unit in interfaces %}
+    {% if interfaces[intf_unit].verb is defined %}
+      {% set verb = interfaces[intf_unit].verb %}
+      {% if interfaces[intf_unit].family is defined and interfaces[intf_unit].address is defined %}
+        {% set family = interfaces[intf_unit].family %}
+        {% set address = interfaces[intf_unit].address %}
+{{ verb }} interfaces {{ intf_unit }} family {{ family }} address {{ address }}
+      {% else %}
+        {% include 'Error: ' ~ 'An interface / unit is missing a family or address key' %}
+      {% endif %}
+    {% else %}
+      {% include 'Error: ' ~ 'An interface / unit is missing a verb key' %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if bgp is defined and routerid is defined and bgp.asn is defined %}
+  set routing-options router-id {{ routerid }}
+  set routing-options autonomous-system {{ bgp.asn }}
+  {% for peer_group in bgp.peers %}
+    {% if bgp.peers[peer_group].verb is defined %}
+
+      {% set group_name = bgp.peers[peer_group].name %}
+      {% set verb = bgp.peers[peer_group].verb %}
+      {% set peer_asn = bgp.peers[peer_group].asn %}
+      {% set description = bgp.peers[peer_group].description %}
+      {% if peer_asn == bgp.asn %}
+        {% set peer_type = 'internal' %}
+      {% else %}
+        {% set peer_type = 'external' %}
+      {% endif %}
+
+      {{ verb }} protocols bgp group {{ group_name }} type {{ peer_type }}
+      {{ verb }} protocols bgp group {{ group_name }} description "{{ description }}"
+      {{ verb }} protocols bgp group {{ group_name }} local-address {{ bgp.peers[peer_group].local_address }}
+      {{ verb }} protocols bgp group {{ group_name }} neighbor {{ bgp.peers[peer_group].neighbor }}
+      {{ verb }} protocols bgp group {{ group_name }} log-updown
+
+    {% endif %}
+  {% endfor %}
+{% endif %}

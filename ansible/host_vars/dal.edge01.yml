@@ -8,14 +8,19 @@ interfaces:
   ge-0/0/1 unit 0:
     verb: set
     family: inet
-    address: 192.0.2.1/30
+    address: 192.0.2.1/26
 bgp:
   asn: 64000
   peers:
-    group:
+    ThisPeerName:
       verb: set
-      name: SomePeerName
       asn: 64000
-      description: "Connection to SomePeerName"
+      description: "Internal session with ThisPeerName"
       local_address: 192.0.2.1
       neighbor: 192.0.2.2
+    ThatPeerName:
+      verb: set
+      asn: 64002
+      description: "External session with ThatPeerName"
+      local_address: 192.0.2.1
+      neighbor: 192.0.2.3

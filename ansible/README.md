@@ -71,5 +71,5 @@ That Junos set configuration file is used to configure the router.
 
 ## Future Improvements
 
-- The existing j2 template under `templates/` uses Junos `set` format configurations, which cannot be used with `juniper_junos_config` merge strategy... generating native brace-delimited Junos configurations should (in principle) allow merging configurations
+- The existing j2 template under `templates/` uses Junos `set` format configurations, which cannot be used with `juniper_junos_config` merge strategy... generating native brace-delimited or xml Junos configurations should (in principle) allow merging configurations
 

@@ -25,7 +25,7 @@ set system host-name {{ hostname }}
   {% for peer_group in bgp.peers %}
     {% if bgp.peers[peer_group].verb is defined %}
 
-      {% set group_name = bgp.peers[peer_group].name %}
+      {% set group_name = peer_group %}
       {% set verb = bgp.peers[peer_group].verb %}
       {% set peer_asn = bgp.peers[peer_group].asn %}
       {% set description = bgp.peers[peer_group].description %}
@@ -37,6 +37,7 @@ set system host-name {{ hostname }}
 
       {{ verb }} protocols bgp group {{ group_name }} type {{ peer_type }}
       {{ verb }} protocols bgp group {{ group_name }} description "{{ description }}"
+      {{ verb }} protocols bgp group {{ group_name }} peer-as {{ peer_asn }}
       {{ verb }} protocols bgp group {{ group_name }} local-address {{ bgp.peers[peer_group].local_address }}
       {{ verb }} protocols bgp group {{ group_name }} neighbor {{ bgp.peers[peer_group].neighbor }}
       {{ verb }} protocols bgp group {{ group_name }} log-updown

@@ -17,22 +17,31 @@ The configuration for the router is stored in `host_vars/dal.edge01.yml`:
 
 ```yaml
 hostname: dal.edge01
-routerid: 192.0.2.1
+routerid: 192.0.2.255
 interfaces:
+  lo0 unit 0:
+    verb: set
+    family: inet
+    address: 192.0.2.255/32
   ge-0/0/1 unit 0:
     verb: set
     family: inet
-    address: 192.0.2.1/30
+    address: 192.0.2.1/26
 bgp:
   asn: 64000
   peers:
-    group:
+    ThisPeerName:
       verb: set
-      name: SomePeerName
       asn: 64000
-      description: "Connection to SomePeerName"
+      description: "Internal session with ThisPeerName"
       local_address: 192.0.2.1
       neighbor: 192.0.2.2
+    ThatPeerName:
+      verb: set
+      asn: 64002
+      description: "External session with ThatPeerName"
+      local_address: 192.0.2.1
+      neighbor: 192.0.2.3
 ```
 
 To configure multiple routers, you just add the router into `inventory.ini` and then add a yaml file for it under `host_vars/`.
@@ -59,3 +68,8 @@ For every yaml file under `host_vars/*.yml`, there should be a matching Ansible 
 When the ansible playbook runs, the variables listed in `host_vars/*.yml` are fed into `templates/juniper_config.j2` and rendered as a Junos set configuration file.  Any number of routers, BGP peers, and any number of interfaces can be configured with a given Ansible playbook run.
 
 That Junos set configuration file is used to configure the router.
+
+## Future Improvements
+
+- The existing j2 template under `templates/` uses Junos `set` format configurations, which cannot be used with `juniper_junos_config` merge strategy... generating native brace-delimited Junos configurations should (in principle) allow merging configurations
+

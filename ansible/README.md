@@ -44,6 +44,7 @@ To configure multiple routers, you just add the router into `inventory.ini` and 
 - The linux system this runs on should have `python3` installed in a virtualenv
 - `cd ansible`
 - `make install`
+- Edit the credentials in `inventory.ini` to reflect the proper username and password
 - `ansible-playbook -i inventory.ini playbook.yml`
 
 ## Assumptions

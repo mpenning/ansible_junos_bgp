@@ -40,23 +40,22 @@ To configure multiple routers, you just add the router into `inventory.ini` and 
 
 ## Configuring the switch
 
-- This should run on linux
+- This ansible playbook should run on linux
 - The linux system this runs on should have `python3` installed in a virtualenv
-- `cd ansible`
-- `make install`
+- `make install` to install all Ansible dependencies required by the playbook.
 - Edit the credentials in `inventory.ini` to reflect the proper username and password
 - `ansible-playbook -i inventory.ini playbook.yml`
 
 ## Assumptions
 
-- Juniper switch is configured with: `set system services netconf ssh`
-- Juniper switch allows the user `mpenning` to configure the device
+- Juniper switches are configured with: `set system services netconf ssh`
+- Juniper switches allow the user `mpenning` to configure the device
 - `mpenning` credentials are stored in the `inventory.ini` file
 
 ## How it works
 
 For every yaml file under `host_vars/*.yml`, there should be a matching Ansible `inventory.ini` entry.
 
-When the ansible playbook runs, the variables listed in `host_vars/*.yml` are fed into `templates/juniper_config.j2` and rendered as a Junos set configuration file.
+When the ansible playbook runs, the variables listed in `host_vars/*.yml` are fed into `templates/juniper_config.j2` and rendered as a Junos set configuration file.  Any number of routers, BGP peers, and any number of interfaces can be configured with a given Ansible playbook run.
 
 That Junos set configuration file is used to configure the router.

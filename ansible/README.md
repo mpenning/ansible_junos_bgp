@@ -17,12 +17,8 @@ The configuration for the router is stored in `host_vars/dal.edge01.yml`:
 
 ```yaml
 hostname: dal.edge01
-routerid: 192.0.2.255
+routerid: 192.0.2.1
 interfaces:
-  lo0 unit 0:
-    verb: set
-    family: inet
-    address: 192.0.2.255/32
   ge-0/0/1 unit 0:
     verb: set
     family: inet
